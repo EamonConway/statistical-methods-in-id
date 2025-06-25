@@ -1,0 +1,157 @@
+---
+title: "Hamiltonian Monte Carlo"
+---
+# Hamiltonian and Leapfrog integrator
+To start doing HMC, we i will review leapfrog and hamiltonians.
+Define a hamiltonian as $H(q,p)$ where $q$ is position and $p$ is the momentum.
+Hamiltons equation of motion are therefore,
+$$
+\begin{align}
+    \frac{d\vec{q}}{dt} = \frac{\partial H}{\partial \vec{p}} \\
+    \frac{d\vec{p}}{dt} = -\frac{\partial H}{\partial \vec{q}}
+\end{align}
+$$
+ The idea is that we want to sample from $\pi(q)$.
+ Lets augment the sampler with momentum, so we have that we want to sample from $\pi(q,p) =\pi(p|q)\pi(q)$, where $\pi(q)$ is the original distribution.
+ Due to a bunch of arguments, which seem tenuous and tough to follow, we state (is this just because log distributions are not subject to overflow? could it be related to the boltzmann distribution or gibbs measures etc? )
+$$
+     \pi(q,p) = \exp(-H(q,p))
+$$
+ where $H(q,p) = -\log \pi(q,p) = -\log \pi(p|q) - \log\pi(q) = K(q,p) + V(q)$, obviously.
+There is a requirement here that $p$ must be dual to $q$, but I do not know why that holds.
+I believe this means that if you choose a momentum distribution it must be the case that the position distribution transforms appropriately leaving the resulting $H$ invariant.
+Otherwise it is not a hamiltonian - but is this true given an arbitrary choice of momentum?
+If we were to take a sample, and follow the equations of motion that are governed by the hamiltonian you will end up at a new point.
+This new point will have the same volume (in hamiltonian space?), which corresponds to the same probability density of the joint distribution.
+If this newly proposed point is symmetric then it will be accepted with probability one.
+
+The equations of motion look like,
+$$
+\begin{align}
+    \frac{d\vec{q}}{dt} &= \frac{\partial K}{\partial p} \\
+    \frac{d\vec{p}}{dt} &= -\frac{\partial K}{\partial q} -\frac{\partial V}{\partial q}
+\end{align}
+$$
+So we have to lift a point from the parameter space to the momentum parameter space and that is done by sampling from a conditional distribution
+We explore the joint typical set (constant density) by using the equations of motion.
+We can then throw away the momentum and get our new sample.
+If we assume that kinetic energy is independent of position (common) then we have
+$$
+\begin{align}
+    \frac{d\vec{q}}{dt} &= \frac{\partial K}{\partial p} \\
+    \frac{d\vec{p}}{dt} &= -\frac{\partial V}{\partial q}
+\end{align}
+$$
+If we were to choose that $\pi(p|q)$ is a gaussian distribution we get
+$$
+\begin{align}
+    \frac{d\vec{q}}{dt} &= \frac{\partial K}{\partial p} \\
+    &= -\frac{\log \pi(p|q)}{\partial p} \\
+    &= -\frac{\log \mathcal{N}(p|\mu, \Sigma)}{\partial p} \\
+&= - \frac{\partial}{\partial p}\left\{ -\frac{1}{2}(p - \mu)^T\Sigma^{-1}(p-\mu) - \log C - \log \sqrt{|\Sigma|}\right\} \\
+&= - \frac{\partial}{\partial p}\left\{ -\frac{1}{2}(p - \mu)^T\Sigma^{-1}(p-\mu)\right\} \\
+&= \frac{1}{2}\frac{\partial}{\partial y}\left\{ y^T\Sigma^{-1}y\right\}\frac{\partial (p-\mu)}{\partial y} \\
+&= \frac{1}{2}\left(\Sigma^{-1} + (\Sigma^{-1})^T\right)(p-\mu)
+\end{align}
+$$
+We might want this centred at zero.
+$$
+\begin{align}
+    \frac{d\vec{q}}{dt} &= \frac{1}{2}\left(\Sigma^{-1} + (\Sigma^{-1})^T\right)p\\
+    &=Ap
+\end{align}
+$$
+If we want lets make the sub that $\hat{p} = Ap$,
+$$
+\begin{align}
+    \frac{d\vec{q}}{dt} &= \hat{p} \\
+    A^{-1}\frac{d \hat{p}}{dt} &= -\frac{\partial V}{\partial q}
+\end{align}
+$$
+$$
+    \frac{d \hat{p}}{dt} = -A\frac{\partial V}{\partial q}
+$$
+This makes it extremely obvious that we can just use a leapfrog algorithm to solve the equations.
+If we choose different momentum proposal than the type of integrator will have to be changed.
+
+Okay so if you are proposing a normal distribution for the momentum, then we can just use a leapfrog integrator.
+Now we can do a burn in and then adjust the correlation to improve the proposals of momentum.
+It seems weird that we can use the final proposed momentum to figure out what initial momentum to choose momentum but that is an argument to debate another day.
+If we want we can also do simulated annealing ?
+
+Let us go back to the point where we assume
+$$
+ \pi(q,p) = \exp(-H(q,p))
+ $$
+where $H(q,p) = -\log \pi(q,p) = -\log \pi(p|q) - \log\pi(q) = K(q,p) + V(q)$, obviously.
+In metropolis hastings we have that the acceptance of a sample is
+$$
+ A(x',x) = \frac{\pi(x')q(x|x')}{\pi(x)q(x'|x)}
+ $$
+where $q$ is the proposal distribution.
+In HMC we have that this proposal is symmetric if and only if we flip the sign of momentum.
+Therefore we want,
+$$
+\begin{align*}
+ A((q',p'),(q,p)) &= \frac{\pi(q',-p')q((q,p)|(q',-p'))}{\pi(q,p)q((q',-p')|(q,p))} \\
+ &=  \frac{\pi(q',-p')}{\pi(q,p)} \\
+ &= \frac{\exp(-H(q',-p'))}{\exp(-H(q,p))} \\
+ &= \exp(-H(q',-p')+H(q,p)) \\
+ &= \exp(\log \pi(-p'|q') +\log\pi(q') - \log \pi(p|q) - \log\pi(q))
+\end{align*}
+$$
+Importantly, any constants of proportionality would be subtracted away at this point in time.
+If we knew $\pi(q)$ up to a known constant it would all be fine, this is technically true for the momentum distribution but I cannot think of a reason why this would be the case.
+The momentum at the newly proposed point has to be negated to ensure that it is symmetric proposal distribution.
+Honestly, the flipping of a sign feels a bit dirty, it makes sense, but its not natural.
+Its really only working because we are sampling from the joint and do not care about momentum.
+
+
+How can we improve this,
+$$
+\begin{align*}
+ \log A((q',p'),(q,p)) &= \log \pi(-p'|q') +\log\pi(q') - \log \pi(p|q) - \log\pi(q) \\
+ &= \log \mathcal{N}(-p'|0,\Sigma)  - \log \mathcal{N}(p|0,\Sigma) +\log\pi(q') - \log\pi(q)
+\end{align*}
+$$
+and I would expect that the normal distribution calculations can be simplified down to just one inverse or something.
+Let us do that
+$$
+\begin{align*}
+    \log \frac{\mathcal{N}(-p'|0,\Sigma)}{\mathcal{N}(p|0,\Sigma)}  &= \log\left\{\frac{e^{-0.5(-p'^T)\Sigma^{-1}(-p')}}{\sqrt{(2 \pi)^k |\Sigma|}}\right\} - \log\left\{\frac{e^{-0.5(p^T)\Sigma^{-1}(p)}}{\sqrt{(2 \pi)^k |\Sigma|}}\right\} \\
+    &= -0.5(-p'^T)\Sigma^{-1}(-p') - -0.5(p^T)\Sigma^{-1}(p) \\
+    &= -0.5(p'^T)\Sigma^{-1}(p') +0.5(p^T)\Sigma^{-1}(p) \\
+    &= 0.5\left(-p'^T\Sigma^{-1}p' +p^T\Sigma^{-1}p \right)
+\end{align*}
+$$
+(Why do we have to negate the momentum? It is not important because of the two negatives.
+So we have two matrix solves, this could be sped up by just using a single matrix solve for sure.
+However, Im definitely using a Cholesky decomposition on $\Sigma$ to get samples for the multivariate normal distribution.
+So in reality we have that $\Sigma = AA^T$ (calculated from dpotrf in lapack).
+Therefore,
+$$
+\begin{align*}
+    \Sigma x = p \\
+    A A^Tx = p\\
+    A (y) = p
+\end{align*}
+$$
+where $A^T x = y$.
+This suggests solving $Ay=p$ for $y$ then $A^Tx = y$ for $x$, which is lower trianguar matrix solve followed by upper matrix solve.
+We could do,
+$$
+\begin{align*}
+    \Sigma [x|x'] = [p|p']
+\end{align*}
+$$
+to possibly speed everything up.
+
+If we have an identity matrix for the proposal (pretty simple and standard first approach) then we have
+$$
+\begin{align*}
+    \log \frac{\mathcal{N}(-p'|0,I)}{\mathcal{N}(p|0,I)}     &= 0.5\left(+p^T p -p'^Tp' \right)
+\end{align*}
+$$
+So the momentum terms in the acceptance criteria is based around the different in current to previous momentum (how much the particles speed changed?).
+We know in a perfect world that the acceptance critera will be 1, (or zero in log space), the change in the posterior exactly cancels out the change in momentum (with no integration errors).
+If the initial momentum was to change drastically so would the posterior?
