@@ -1,3 +1,58 @@
 ---
 title: Gibbs Sampling
 ---
+
+After learning Markov Chain Monte Carlo the obvious next question is how can I improve its performance?
+A natural avenue to try and improve performance is to improve how often a sample is accepted.
+As such, we can start to look at better proposal distributions.
+
+To improve the choice of proposal distribution we look at the Metropolis-Hastings acceptance criteria,
+$$
+A(x', x) = \min \left(1, \frac{\pi(x')q(x| x')}{\pi(x)q(x' | x)}\right)
+$$
+where $\pi(x)$ is the stationary distribution of interest and $q(\cdot|x)$ is the proposal distribution.
+One choice that would improve our acceptance rate is to choose,
+$$
+q(x|x') = \pi(x),
+$$
+but that would suffer from the obvious problem (we built this algorithm to sample $\pi$...).
+As such, we will have to look for other alternatives.
+
+Sometimes, definitely not always, complicated joint distributions actually have relatively simple conditional distributions.
+For example, if you know
+$$
+p(A,B) = p(A|B)p(B),
+$$
+a simple sampling algorithm consists of sampling $B$ and then sampling $A$ with that known value of $B$.
+This has factorised the problem into two steps.
+With Gibbs sampling we will break up sampling from our joint distribution into sampling from conditional distributions.
+
+The proposition behind Gibbs samplers is to take the posterior distribution and sample iteratively from each parameter.
+To demonstrate we assume that $x = [x,y]$ and that we are looking at the acceptance criteria for accepting a newly proposed $x$.
+In this situation,
+$$
+A([x',y], [x,y]) = \min \left(1, \frac{\pi(x',y)q(x,y| x',y)}{p(x,y)q(x',y | x)}\right)
+$$
+where $\pi(x)$ is the stationary distribution of interest and $q(\cdot|x)$ is the proposal distribution.
+We can expand the joint probabilities to,
+$$
+A([x',y], [x,y]) = \min \left(1, \frac{p(x'|y)p(y)q(x,y| x',y)}{p(x|y)p(y)q(x',y | x)}\right),
+$$
+which has the wonderful property of cancelling out $p(y)$.
+So if we were to sample iteratively from our distribution we would simplify our acceptance criteria to,
+$$
+A([x',y], [x,y]) = \min \left(1, \frac{p(x'|y)q(x,y| x',y)}{p(x|y)q(x',y | x)}\right).
+$$
+
+Given this updated form of the acceptance criteria, we can start to construct an appropriate proposal density.
+The more astute might notice that if we choose the proposal density as the conditional of our stationary distribution, $q(x',y|x,y) = p(x'|y)$ then,
+$$
+A([x',y], [x,y]) = 1,
+$$
+and we are accepting every proposal (the same holds true for if we were proposing a new $y$ value but we would use the conditional $p(y|x)$ as our proposal distribution).
+This is exact premise behind Gibbs Sampling.
+
+The Gibbs sampling algorithm is a Markov Chain Monte Carlo algorithm where each parameter is updated iteratively and the proposal distribution is the conditional distribution for that parameter.
+In doing this we accept every sample from our Markov Chain.
+There are however limitations to this technique, such as large autocorrelations, but this method has been integral to statistical methods.
+

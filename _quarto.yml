@@ -23,6 +23,8 @@ website:
             href: hmc.qmd
           - text: Monte Carlo Integration
             href: montecarlointegration.qmd
+          - text: Gibbs Sampling
+            href: gibbs.qmd
       - section: Model Fitting
         contents:
           - text: Introduction
