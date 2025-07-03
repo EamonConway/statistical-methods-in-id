@@ -1,12 +1,3 @@
 ---
 title: "Probability Notes"
 ---
-
-These are the notes of Dr Eamon Conway on probability and statistics.
-They were put together as a simple onboarding for those that might need some help.
-
-::: {.callout title='Bayes Theorem'}
-$$
-p(A|B) = \frac{p(A,B)}{p(B)}
-$$
-:::
