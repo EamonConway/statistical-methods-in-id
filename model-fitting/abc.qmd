@@ -1,6 +1,0 @@
----
-title: Approximate Bayesian Computation
----
-
-The new hype in model fitting is Approximate Bayesian Computation (ABC).
-This is under development, go read.
