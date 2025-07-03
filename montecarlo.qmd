@@ -1,0 +1,10 @@
+---
+title: "Monte Carlo Methods"
+---
+
+Monte Carlo methods are a broad range of techniques associated with approximating solutions to mathematical problems through repeated sampling.
+
+It is often likened to throwing darts.
+
+To exemplify the a Monte Carlo approach, lets consider approximating the area of a circle.
+

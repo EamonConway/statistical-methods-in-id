@@ -1,0 +1,32 @@
+---
+title: Priors
+---
+
+## Choice of Prior
+
+What is an appropriate choice of prior...
+
+## Uninformative priors
+
+This is a complicated and often argued about question in Bayesian probability.
+If you have no knowledge of what the parameter is, then the argument is that you want the prior to be uninformative.
+But what does it mean for a prior to be uninformative?
+
+A simple and often used choice for "uninformative" prior is a uniform prior.
+The uniform prior is not neccesarily a probability distribution.
+Yet even the uniform prior may not be "uninformative".
+
+Consider a simple example of observing $5$ heads out of $8$ coin tosses.
+We do not know if the coin is biased and we want to determine the probability of observing a head.
+The model that we would use to describe this situation is,
+$$
+D \sim \text{Binomial}(10,p),
+$$
+where $D = 5$ and $p$ is the unknown probability of observing a head.
+
+# Bayesian Inference.
+The likelihood expresses how we "model" the data generation process given parameters required in the model.
+
+The prior expresses our initial knowledge in what the model parameters are.
+
+The posterior is our updated knowledge of the parameters.
