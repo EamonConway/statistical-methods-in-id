@@ -1,13 +1,6 @@
 ---
-title: Model Fitting
+title: Maximum Likelihood
 ---
-
-When developing mathematical models you will inherently end up with parameters.
-These parameters may be known *a-priori*, for example Planck's constant or the speed of light, but others may need to be estimated from observed data.
-In fact, you may have written down your model with the express intention of determining these parameters through experiment.
-In this section, we will work through techniques that can be used to fit models to data.
-
-## Maximum Likelihood
 The maximum likelihood method for fitting mathematical models to data is perhaps the most common method used to fit models to data.
 In this approach, we must be able to write down our distributional assumptions for how the model fits the data.
 This is called the likelihood, $\mathcal{L}$.

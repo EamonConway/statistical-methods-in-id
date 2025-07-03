@@ -37,7 +37,7 @@ The maximum likelihood solution is,
 $$
 \hat{\theta} = \arg \max  - \sum_{i=1}^N (D_i - \mu(\theta))^2,
 $$
-which is identical to the criteria used in nonlinear least squares!
+which is the same solution to nonlinear least squares!
 If you are familiar with using nonlinear least squares to fit your models, then you are now also familiar with using maximum likelihood method to fit your models.
 :::
 
@@ -45,3 +45,16 @@ If you are familiar with using nonlinear least squares to fit your models, then 
 Taking the same deterministic model as before, $f: (\mathcal{M},\theta) \rightarrow \mathcal{O}$, we can use Bayesian Inference.
 
 We then make the assumption that the data observed, $D$, is generated from a distribution $Q(\cdot|\mathcal{O},\theta)$ that depends on the output space and the parameters of interest.
+
+::: {.callout-note title="SIR model"}
+
+:::
+
+## Pitfalls of model fitting
+
+When fitting mathematical models to data you must be able to evaluate the model relatively efficiently.
+There is no escaping the fact that the model must be run repeatedly to obtain information on the fit.
+Some models can be solved with minimal computational effort and then no real thought has to go into the best option for fitting.
+If you have a model that takes hours to run for a single parameter combination then you now have to think about your best approach.
+
+

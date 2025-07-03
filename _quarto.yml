@@ -11,12 +11,12 @@ website:
     style: "docked"
     search: true
     contents:
+      - text: "Introduction"
+        href: introduction.qmd
       - section: Monte Carlo Methods
         contents:
           - text: "Monte Carlo Methods"
             href: montecarlo.qmd
-          - text: "Introduction"
-            href: introduction.qmd
           - text: Markov Chain Monte Carlo
             href: mcmc.qmd
           - text: Hamiltonian Monte Carlo
@@ -25,10 +25,12 @@ website:
             href: montecarlointegration.qmd
       - section: Model Fitting
         contents:
+          - text: Introduction
+            href: model-fitting/intro.qmd
           - text: Maximum Likelihood
-            href: model-fitting.qmd
+            href: model-fitting/maximumlikelihood.qmd
           - text: Bayesian Inference
-            href: bayesianinference.qmd
+            href: model-fitting/bayesianinference.qmd
           - text: What if my model is not stochastic?
             href: model-fitting/what-if.qmd
           - text: Approximate Bayesian Computation
