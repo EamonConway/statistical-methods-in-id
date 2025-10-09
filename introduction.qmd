@@ -35,7 +35,7 @@ This is typically done using maximum likelihood.
 This is it, we are done, we have our measurement for the mean.
 It is, 
 $$
-\hat{\mu} = \frac{1}{10}\sum_{i=1}^{20} D_i
+\hat{\mu} = \frac{1}{20}\sum_{i=1}^{20} D_i
 $$
 where $D_i$ is our $i$-th data point and $\hat{\mu}$ is our estimate of the true mean.  
 But as a frequentist, we might then say... well that was our measurement but "Is it a significant measurement!"
@@ -53,7 +53,7 @@ D_i \sim \mathcal{N}(\mu,\sigma^2),
 $$
 where $\mathcal{N}$ is used to denote the normal distribution, so we have that 
 $$
-\hat{\mu} = \frac{1}{10}\sum_{i=1}^{20} D_i \sim \mathcal{N}(\mu, \frac{\sigma^2}{20}).
+\hat{\mu} = \frac{1}{20}\sum_{i=1}^{20} D_i \sim \mathcal{N}(\mu, \frac{\sigma^2}{20}).
 $$
 So because the data varies our estimate for the maximum likelihood is also a random variable!
 If you do not believe me, lets look at this example 
