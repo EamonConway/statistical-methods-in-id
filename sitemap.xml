@@ -2,54 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://EamonConway.github.io/statistical-methods-in-id/priors.html</loc>
-    <lastmod>2025-07-03T07:32:01.484Z</lastmod>
-  </url>
-  <url>
-    <loc>https://EamonConway.github.io/statistical-methods-in-id/gibbs.html</loc>
-    <lastmod>2025-07-03T07:32:01.472Z</lastmod>
-  </url>
-  <url>
-    <loc>https://EamonConway.github.io/statistical-methods-in-id/hmc.html</loc>
-    <lastmod>2025-07-03T07:32:01.473Z</lastmod>
-  </url>
-  <url>
-    <loc>https://EamonConway.github.io/statistical-methods-in-id/model-fitting/intro.html</loc>
-    <lastmod>2025-07-03T07:32:01.479Z</lastmod>
-  </url>
-  <url>
-    <loc>https://EamonConway.github.io/statistical-methods-in-id/model-fitting/abc.html</loc>
-    <lastmod>2025-07-03T07:32:01.477Z</lastmod>
-  </url>
-  <url>
-    <loc>https://EamonConway.github.io/statistical-methods-in-id/montecarlointegration.html</loc>
-    <lastmod>2025-07-03T07:32:01.483Z</lastmod>
+    <lastmod>2025-10-09T09:23:56.012Z</lastmod>
   </url>
   <url>
     <loc>https://EamonConway.github.io/statistical-methods-in-id/montecarlo.html</loc>
-    <lastmod>2025-07-03T07:32:01.482Z</lastmod>
-  </url>
-  <url>
-    <loc>https://EamonConway.github.io/statistical-methods-in-id/mcmc.html</loc>
-    <lastmod>2025-07-03T07:32:01.476Z</lastmod>
-  </url>
-  <url>
-    <loc>https://EamonConway.github.io/statistical-methods-in-id/model-fitting/what-if.html</loc>
-    <lastmod>2025-07-03T07:32:01.481Z</lastmod>
+    <lastmod>2025-10-09T09:23:56.012Z</lastmod>
   </url>
   <url>
     <loc>https://EamonConway.github.io/statistical-methods-in-id/model-fitting/maximumlikelihood.html</loc>
-    <lastmod>2025-07-03T07:32:01.480Z</lastmod>
+    <lastmod>2025-10-09T09:23:56.012Z</lastmod>
   </url>
   <url>
     <loc>https://EamonConway.github.io/statistical-methods-in-id/model-fitting/bayesianinference.html</loc>
-    <lastmod>2025-07-03T07:32:01.478Z</lastmod>
+    <lastmod>2025-10-09T09:23:56.012Z</lastmod>
+  </url>
+  <url>
+    <loc>https://EamonConway.github.io/statistical-methods-in-id/mcmc.html</loc>
+    <lastmod>2025-10-09T09:23:56.012Z</lastmod>
+  </url>
+  <url>
+    <loc>https://EamonConway.github.io/statistical-methods-in-id/hmc.html</loc>
+    <lastmod>2025-10-09T09:23:56.012Z</lastmod>
   </url>
   <url>
     <loc>https://EamonConway.github.io/statistical-methods-in-id/about.html</loc>
-    <lastmod>2025-07-03T07:32:01.471Z</lastmod>
+    <lastmod>2025-10-09T09:23:56.012Z</lastmod>
+  </url>
+  <url>
+    <loc>https://EamonConway.github.io/statistical-methods-in-id/gibbs.html</loc>
+    <lastmod>2025-10-09T09:23:56.012Z</lastmod>
   </url>
   <url>
     <loc>https://EamonConway.github.io/statistical-methods-in-id/introduction.html</loc>
-    <lastmod>2025-07-03T07:32:01.474Z</lastmod>
+    <lastmod>2025-10-09T10:51:45.865Z</lastmod>
+  </url>
+  <url>
+    <loc>https://EamonConway.github.io/statistical-methods-in-id/model-fitting/abc.html</loc>
+    <lastmod>2025-10-09T09:23:56.012Z</lastmod>
+  </url>
+  <url>
+    <loc>https://EamonConway.github.io/statistical-methods-in-id/model-fitting/intro.html</loc>
+    <lastmod>2025-10-09T09:23:56.012Z</lastmod>
+  </url>
+  <url>
+    <loc>https://EamonConway.github.io/statistical-methods-in-id/model-fitting/what-if.html</loc>
+    <lastmod>2025-10-09T09:23:56.012Z</lastmod>
+  </url>
+  <url>
+    <loc>https://EamonConway.github.io/statistical-methods-in-id/montecarlointegration.html</loc>
+    <lastmod>2025-10-09T09:23:56.012Z</lastmod>
   </url>
 </urlset>
