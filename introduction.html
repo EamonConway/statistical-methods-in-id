@@ -336,14 +336,14 @@ p(\theta|D).
 <section id="an-example" class="level2">
 <h2 class="anchored" data-anchor-id="an-example">An example?</h2>
 <p>Another way that makes it easier for me to think about the difference between frequentist and bayesian statistics is to think of p-values. Lets start with a simple example of the mean of a normal distribution. Let us say that we have measured 20 data points that we believe are normally distributed with an unknown mean, <span class="math inline">\(\mu\)</span> but a known variance, <span class="math inline">\(\sigma^2\)</span>. When we think like a frequentist, we look at our data (which we believe is sampled from a distribution) and we determine an estimate for our mean. This is typically done using maximum likelihood. This is it, we are done, we have our measurement for the mean. It is, <span class="math display">\[
-\hat{\mu} = \frac{1}{10}\sum_{i=1}^{20} D_i
+\hat{\mu} = \frac{1}{20}\sum_{i=1}^{20} D_i
 \]</span> where <span class="math inline">\(D_i\)</span> is our <span class="math inline">\(i\)</span>-th data point and <span class="math inline">\(\hat{\mu}\)</span> is our estimate of the true mean.<br>
 But as a frequentist, we might then say… well that was our measurement but “Is it a significant measurement!”</p>
 <p>To look at significance, we actually look at the distribution of the maximum likelihood estimate. Wait, a distribution of the maximum likelihood? That does not make sense as it is a point. Yes it is a point estimate, but what we do is we look at how that point estimate will change BECAUSE OUR DATA IS RANDOM.</p>
 <p>The next time we collect data, we expect that we will get a different point estimate of the mean! What is the distribution? Well, <span class="math display">\[
 D_i \sim \mathcal{N}(\mu,\sigma^2),
 \]</span> where <span class="math inline">\(\mathcal{N}\)</span> is used to denote the normal distribution, so we have that <span class="math display">\[
-\hat{\mu} = \frac{1}{10}\sum_{i=1}^{20} D_i \sim \mathcal{N}(\mu, \frac{\sigma^2}{20}).
+\hat{\mu} = \frac{1}{20}\sum_{i=1}^{20} D_i \sim \mathcal{N}(\mu, \frac{\sigma^2}{20}).
 \]</span> So because the data varies our estimate for the maximum likelihood is also a random variable! If you do not believe me, lets look at this example</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>estimator_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>

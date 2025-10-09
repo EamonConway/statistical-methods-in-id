@@ -318,7 +318,7 @@ window.Quarto = {
 <ul>
 <li>As a first step, lets pretend that this is actually a really tough problem and we do not know the answer is <span class="math inline">\(\frac{\pi}{4}\)</span>.</li>
 <li>For the second step, if the circle has unit diameter then we can place the circle entirely within a square with unit side lengths.</li>
-<li>Next, lets throw 100 darts at our square!</li>
+<li>Next, lets throw 10000 darts at our square!</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dart_throw_locations <span class="ot">=</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">runif</span>(<span class="dv">10000</span>,<span class="sc">-</span><span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">y =</span> <span class="fu">runif</span>(<span class="dv">10000</span>,<span class="sc">-</span><span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
@@ -341,8 +341,8 @@ window.Quarto = {
 <pre><code># A tibble: 2 × 3
   Hit       n proportion
   &lt;lgl&gt; &lt;int&gt;      &lt;dbl&gt;
-1 FALSE  2218      0.222
-2 TRUE   7782      0.778</code></pre>
+1 TRUE   7834      0.783
+2 FALSE  2166      0.217</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pi<span class="sc">/</span><span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
