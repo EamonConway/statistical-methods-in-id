@@ -316,14 +316,41 @@ window.Quarto = {
 <p>Monte Carlo methods are a broad range of techniques associated with approximating solutions to mathematical problems through repeated sampling (hence the name after the famous casino). It is often likened to throwing darts at a problem and seeing which ones manage to stick.</p>
 <p>To exemplify the a Monte Carlo approach, lets consider approximating the area of a circle with unit diameter.</p>
 <ul>
-<li>As a first step, lets pretend that this is actually a really tough problem and we do not know the answer is <span class="math inline">\(\pi\)</span>.</li>
+<li>As a first step, lets pretend that this is actually a really tough problem and we do not know the answer is <span class="math inline">\(\frac{\pi}{4}\)</span>.</li>
 <li>For the second step, if the circle has unit diameter then we can place the circle entirely within a square with unit side lengths.</li>
 <li>Next, lets throw 100 darts at our square!</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dart_throw_locations <span class="ot">=</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">runif</span>(<span class="dv">100</span>), <span class="at">y =</span> <span class="fu">runif</span>(<span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dart_throw_locations <span class="ot">=</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">runif</span>(<span class="dv">10000</span>,<span class="sc">-</span><span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="at">y =</span> <span class="fu">runif</span>(<span class="dv">10000</span>,<span class="sc">-</span><span class="fl">0.5</span>,<span class="fl">0.5</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>dart_throw_hits <span class="ot">=</span> dart_throw_locations <span class="sc">|&gt;</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">Hit =</span> (x<span class="sc">^</span><span class="dv">2</span><span class="sc">+</span>y<span class="sc">^</span><span class="dv">2</span>) <span class="sc">&lt;</span> (<span class="fl">0.5</span>)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(dart_throw_hits, ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> x,<span class="at">y =</span>y, <span class="at">color =</span> Hit)) <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="montecarlo_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>area <span class="ot">=</span> dart_throw_hits <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">n =</span> dplyr<span class="sc">::</span><span class="fu">n</span>(), <span class="at">.by =</span> tidyselect<span class="sc">::</span><span class="fu">all_of</span>(<span class="st">"Hit"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">proportion =</span> n<span class="sc">/</span><span class="fu">sum</span>(n))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(area)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  Hit       n proportion
+  &lt;lgl&gt; &lt;int&gt;      &lt;dbl&gt;
+1 FALSE  2218      0.222
+2 TRUE   7782      0.778</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pi<span class="sc">/</span><span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7853982</code></pre>
+</div>
 </div>
 <p>The above code emulates the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> location of each dart throw on our unit square. By visualising these plots over our circle, we can observe that some of the darts have succeeded in being inside the circle and some have not. We know that those darts had equal probability of being anywhere inside that square. Therefore, if we were to count the number of darts that were inside of the circle and compare that to the number that were outside of the circle, we are approximating the percentage area of the square that the circle takes up. Due to the fact that the square has an area of 1 unit<span class="math inline">\(^2\)</span> we are approximating exactly the area of the circle (and not some scalar multiple of the circle).</p>
+<p>What does this mean? We can use random sampling to help answer our questions. We can use an Accept-Reject step to take something that is similar to what we want and turn it into exactly what we want.</p>
 
 
 
@@ -401,7 +428,7 @@ window.Quarto = {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/EamonConway\.github\.io\/statistical-methods-in-id\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

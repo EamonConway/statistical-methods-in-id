@@ -336,35 +336,33 @@ p(A|B) = \frac{p(A, B)}{p(B)}
 \]</span></p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="Normal data example">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Normal data example
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>For a simple example, lets assume <span class="math display">\[
+<!-- ::: {.callout-note title="Normal data example" collapse="true"}
+For a simple example, lets assume
+$$
 D \sim \mathcal{N}(\mu, \sigma^2),
-\]</span> where <span class="math inline">\(\mu\)</span> is the mean, and <span class="math inline">\(\sigma^2\)</span> is the variance of the sample.</p>
-<p>From the measured data we are trying to infer <span class="math inline">\(\mu\)</span> but we know <span class="math inline">\(\sigma^2\)</span>. The likelihood for this example would be, <span class="math display">\[
+$$
+where $\mu$ is the mean, and $\sigma^2$ is the variance of the sample.
+
+From the measured data we are trying to infer $\mu$ but we know $\sigma^2$.
+The likelihood for this example would be,
+$$
 p(D|\mu) = \prod_{i=1}^N \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(D_i - \mu)^2}{2\sigma^2}} = \left(\frac{1}{\sigma \sqrt{2 \pi}}\right)^N e^{-\frac{1}{2\sigma^2}\sum_{i=1}^N (D_i - \mu)^2},
-\]</span> where <span class="math inline">\(D_i\)</span> is the <span class="math inline">\(i\)</span>th data point. Therefore we have that the log-likelihood is, <span class="math display">\[
+$$
+where $D_i$ is the $i$th data point. Therefore we have that the log-likelihood is,
+$$
 \log \mathcal{L}(\mu) = -N(\log\sigma + \log\sqrt{2\pi}) + {-\frac{1}{2\sigma^2}\sum_{i=1}^N (D_i - \mu)^2},
-\]</span> which has stationary points at, <span class="math display">\[
+$$
+which has stationary points at,
+$$
 \frac{d}{d \mu}\left\{ \log \mathcal{L}(\mu)\right\} =  {-\frac{1}{2\sigma^2}\sum_{i=1}^N (D_i - \mu)^2} = 0.
-\]</span> The solution of which is the maximum likelihood estimate for the mean, <span class="math display">\[
+$$
+The solution of which is the maximum likelihood estimate for the mean,
+$$
 \hat{\mu} = \frac{1}{N}\sum_{i=1}^N D_i
-\]</span></p>
-</div>
-</div>
-</div>
+$$
+::: -->
 <div class="callout callout-style-default callout-note callout-titled" title="Linear Regression">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -373,8 +371,17 @@ p(D|\mu) = \prod_{i=1}^N \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(D_i - \mu)^2}{2\s
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p>Lets do linear regression in a Bayesian sense. We will have 20 samples of data that looks like, <span class="math display">\[
+D_i \sim \mathcal{N}(\mu = ax_1 + bx_2 + c, 1),
+\]</span> where <span class="math inline">\(x_i\)</span> are measured covariates and <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(c\)</span> are parameters to be inferred. Therefore we have a likelihood of, <span class="math display">\[
+p(D|a,b,c) = \prod_{i=1}^{20} \mathcal{N}(D_i|ax_1 + bx_2 + c,1)
+\]</span></p>
+<p>As a first example, I am going to assume an uninformative prior, <span class="math display">\[
+p(a,b,c) \propto 1
+\]</span> You might notice this is not a distribution, which is okay. You can set whatever prior you want - as long as the posterior is proper (this is tough).</p>
+<p>This code generates our data.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -384,6 +391,7 @@ p(D|\mu) = \prod_{i=1}^N \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(D_i - \mu)^2}{2\s
 </div>
 </div>
 </div>
+<p>This is a Markov Chain Monte Carlo that constructs a sampling distribution that is the posterior distribution.</p>
 <div class="cell">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -554,7 +562,7 @@ p(\theta|D) \propto \theta^{2 + \alpha}(1-\theta)^{6 + \beta},
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/EamonConway\.github\.io\/statistical-methods-in-id\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
