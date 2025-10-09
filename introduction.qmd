@@ -1,3 +1,109 @@
 ---
 title: "Probability Notes"
 ---
+# Bayesian Vs Frequentist statistics
+
+I am not an expert on this fight... but here is my opinion that I have put unsolicited on the internet. 
+
+Frequentist statistics is the common first year subject at university that makes you wonder why are you checking p-values all the time. 
+Bayesian statistics is the one you learn later on in a rush cause its cool. 
+But what is the real difference behind them.
+
+There is one main distinction that you should remember when talking about the difference between Bayesian and Frequentist probability. 
+Bayesian statistics says that the parameters are random variables given the data. 
+Frequentist statistics says that the data is a random variable given the parameters. 
+That is, Frequentists love 
+$$
+p(D|\theta),
+$$
+where $D$ is the data and $\theta$ is the parameters of interest, and Bayesians love
+$$
+p(\theta|D).
+$$
+
+Are we done? 
+Yes. 
+Is there so much more to it than that super simple explanation? 
+Yes. 
+
+## An example?
+Another way that makes it easier for me to think about the difference between frequentist and bayesian statistics is to think of p-values. 
+Lets start with a simple example of the mean of a normal distribution. 
+Let us say that we have measured 20 data points that we believe are normally distributed with an unknown mean, $\mu$ but a known variance, $\sigma^2$. 
+When we think like a frequentist, we look at our data (which we believe is sampled from a distribution) and we determine an estimate for our mean.
+This is typically done using maximum likelihood. 
+This is it, we are done, we have our measurement for the mean.
+It is, 
+$$
+\hat{\mu} = \frac{1}{10}\sum_{i=1}^{20} D_i
+$$
+where $D_i$ is our $i$-th data point and $\hat{\mu}$ is our estimate of the true mean.  
+But as a frequentist, we might then say... well that was our measurement but "Is it a significant measurement!"
+
+To look at significance, we actually look at the distribution of the maximum likelihood estimate. 
+Wait, a distribution of the maximum likelihood? 
+That does not make sense as it is a point.
+Yes it is a point estimate, but what we do is we look at how that point estimate will change BECAUSE OUR DATA IS RANDOM.
+
+The next time we collect data, we expect that we will get a different point estimate of the mean!
+What is the distribution? 
+Well, 
+$$
+D_i \sim \mathcal{N}(\mu,\sigma^2),
+$$
+where $\mathcal{N}$ is used to denote the normal distribution, so we have that 
+$$
+\hat{\mu} = \frac{1}{10}\sum_{i=1}^{20} D_i \sim \mathcal{N}(\mu, \frac{\sigma^2}{20}).
+$$
+So because the data varies our estimate for the maximum likelihood is also a random variable!
+If you do not believe me, lets look at this example 
+```{r}
+estimator_data <- tibble::tibble(
+  `Sample mean` = rowMeans(matrix(rnorm(n = 10000 * 20, mean = 2, sd = 1), ncol = 20))
+)
+ggplot2::ggplot(estimator_data, ggplot2::aes(x = `Sample mean`)) +
+    ggplot2::geom_histogram(stat = "density") +
+    ggplot2::theme_minimal(base_size = 10)
+```
+This calculates the repeated sample means that result from our varying data. 
+
+The point of p-values is to now ask the question. 
+Given the model assumptions that we have made, what is the probability that I observed my estimated mean?
+
+(Left as an exercise to the reader for now)
+
+As a bayesian, we would not consider repeating the experiment over and over to determine a distribution of sample means. 
+Instead we would use Baye's Theorem to determine the probability distribution for the true mean.
+We would look at 
+$$
+p(\mu |D) \propto p(D|\mu)p(\mu),
+$$
+where $p(\mu|D)$ is called the posterior, $p(D|\mu)$ is our likelihood (which is the same as the likelihood used in a frequentist version) and $p(\mu)$ is our prior distribution. 
+The prior distribution is of interest as it is encodes our prior belief in the value of $\mu$ before we observed the data. 
+If we continue with our previous example we would say that 
+$$
+p(D|\mu) = \prod_{i=1}^{20} \mathcal{N}(D_i | \mu, \sigma^2)
+$$
+and we could say that our prior belief is that $\mu$ is around zero.
+This could look like,
+$$
+p(\mu) = \mathcal{N}(\mu|0,\lambda^2)
+$$
+where $\lambda$ is the variance we expect in our prior belief around $\mu$. 
+Having defined all of this, the distribution for our mean is,
+$$
+p(\theta|D) \propto \prod_{i=1}^{20} \mathcal{N}(D_i | \mu, \sigma^2)\mathcal{N}(\mu|0,\lambda^2).
+$$
+
+Now that is the answer from a Bayesian perspective. 
+We do not ask the same p-value questions as before as it does not have any meaning to us. 
+The data that we measured updated our belief for what we think the value of $\mu$ is. 
+
+## But that seemed easy? Isn't Bayesian statistics hard and full of sampling?
+Yeah, I hid all of the complicated nonsense hidden with a wonderful $\propto$ sign.
+In doing so, I hid all of the complicated integrals and all the complicated nonsense. 
+
+So what do Bayesian people do?
+When it comes to evaluating their problem at the end of the day, they normally construct samplers that generate samples from their posterior distribution. 
+Why do they use samplers? 
+When evaluating high dimensional integrals (which that constant normally is) the monte carlo method provides wonderful convergence properties!

@@ -15,7 +15,7 @@ p(A|B) = \frac{p(A, B)}{p(B)}
 $$
 :::
 
-::: {.callout-note title="Normal data example" collapse="true"}
+<!-- ::: {.callout-note title="Normal data example" collapse="true"}
 For a simple example, lets assume
 $$
 D \sim \mathcal{N}(\mu, \sigma^2),
@@ -39,10 +39,28 @@ The solution of which is the maximum likelihood estimate for the mean,
 $$
 \hat{\mu} = \frac{1}{N}\sum_{i=1}^N D_i
 $$
-:::
+::: -->
 
 ::: {.callout-note title="Linear Regression" collapse="true"}
+Lets do linear regression in a Bayesian sense. 
+We will have 20 samples of data that looks like,
+$$
+D_i \sim \mathcal{N}(\mu = ax_1 + bx_2 + c, 1),
+$$
+where $x_i$ are measured covariates and $a$, $b$, and $c$ are parameters to be inferred.
+Therefore we have a likelihood of,
+$$
+p(D|a,b,c) = \prod_{i=1}^{20} \mathcal{N}(D_i|ax_1 + bx_2 + c,1)
+$$
 
+As a first example, I am going to assume an uninformative prior,
+$$
+p(a,b,c) \propto 1
+$$
+You might notice this is not a distribution, which is okay. 
+You can set whatever prior you want - as long as the posterior is proper (this is tough). 
+
+This code generates our data. 
 ```{r echo=FALSE}
 data = (function(){
     N_samples = 20
@@ -62,6 +80,7 @@ data |>
 
 ```
 
+This is a Markov Chain Monte Carlo that constructs a sampling distribution that is the posterior distribution.
 ```{r echo=TRUE, filename="linear_regression.r"}
 initial_samples = list(c(a = 1, b = 1, c = 0),
                        c(a = 10, b = 10, c = 10),
